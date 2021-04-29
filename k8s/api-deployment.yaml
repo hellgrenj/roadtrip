@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - image: roadtrip-api
+          name: roadtrip-api
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}

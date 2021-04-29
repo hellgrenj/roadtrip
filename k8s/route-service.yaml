@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:  
+  labels:
+    app: route
+  name: route
+spec:
+  ports:
+    - name: "8282"
+      port: 8282
+      targetPort: 8282
+  type: LoadBalancer
+  selector:
+    app: route
+status:
+  loadBalancer: {}

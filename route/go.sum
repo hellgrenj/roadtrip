@@ -1,0 +1,4 @@
+github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
+github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/hellgrenj/bf-tsm v0.0.0-20201231142525-452301f749f3 h1:jCuZFMA7Gjlt7WKTuJRixc1IYmO6mIWQHcpiN+nr32k=
+github.com/hellgrenj/bf-tsm v0.0.0-20201231142525-452301f749f3/go.mod h1:KHDt3DKvkFAFa5LSb96erqffslc11hJE2IX071dnmL4=

@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta11
+kind: Config
+build:
+  artifacts:
+  - image: roadtrip-api
+    context: ./api
+    docker:
+      dockerfile: Dockerfile
+  - image: roadtrip-location
+    context: ./location
+    docker:
+      dockerfile: Dockerfile
+  - image: roadtrip-route
+    context: ./route
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubeContext: docker-desktop
+  kubectl:
+    manifests:
+      - ./k8s/*

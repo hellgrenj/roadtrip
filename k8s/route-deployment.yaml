@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: route
+  name: route
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: route
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: route
+    spec:
+      containers:
+        - image: roadtrip-route
+          name: roadtrip-route
+          ports:
+            - containerPort: 8282
+          readinessProbe: # ready to accept traffic
+            httpGet:
+              path: /health
+              port: 8282
+              httpHeaders:
+              - name: Host
+                value: KubernetesReadinessProbe
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 150m
+            requests:
+              cpu: 100m
+      restartPolicy: Always
+status: {}
