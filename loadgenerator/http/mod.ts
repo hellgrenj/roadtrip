@@ -11,7 +11,7 @@ export async function sendRequest(session: Session) {
       "london",
       "rome",
       "canberra"
-    ], //   'buenos aires', 'canberra', 'pretoria'
+    ], //   'buenos aires', 'pretoria'
   };
 
   try {
@@ -36,12 +36,12 @@ export async function sendRequest(session: Session) {
 }
 function handleResponse(session: Session, responseTime: number) {
   session.numReqs += 1;
-  if (session.responseTimesPerTimeLapse[session.lastTimeLapse]) {
-    session.responseTimesPerTimeLapse[session.lastTimeLapse].push(
+  if (session.responseTimesPerLap[session.lastLapTime]) {
+    session.responseTimesPerLap[session.lastLapTime].push(
       responseTime,
     );
   } else {
-    session.responseTimesPerTimeLapse[session.lastTimeLapse] = [
+    session.responseTimesPerLap[session.lastLapTime] = [
       responseTime,
     ];
   }

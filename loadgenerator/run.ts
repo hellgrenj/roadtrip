@@ -11,11 +11,11 @@ let generateLoadInterval = generateLoad();
 const increasingLoadInterval = setInterval(turnUpTheHeat, 10000);
 // print status every 8 seconds
 setInterval(() => {
-  status(session);
+  status(session.lapTime());
 }, 8000);
 // print a summary when user stops process (ctrl + c)
 await Deno.signal(Deno.Signal.SIGINT);
-summary(session);
+summary(session.summary());
 Deno.exit();
 
 function generateLoad(): number {
