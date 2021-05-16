@@ -10,7 +10,7 @@ export function whisper(msg: string) {
 export function announce(msg: string) {
   console.log(Colors.red(msg));
 }
-export function status(intervalStats: IntervalStats) {
+export function printStatus(intervalStats: IntervalStats) {
   header();
   console.log(
     Colors.blue(
@@ -32,7 +32,7 @@ export function status(intervalStats: IntervalStats) {
     } ms`,
   ));
 }
-export function summary(summaryStats: SummaryStats) {
+export function printSummary(summaryStats: SummaryStats) {
   header();
   console.log(Colors.brightGreen("Summary"));
  

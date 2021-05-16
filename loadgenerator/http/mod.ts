@@ -10,7 +10,7 @@ export async function sendRequest(session: Session) {
       "manila",
       "london",
       "rome",
-      "canberra"
+      "canberra",
     ], //   'buenos aires', 'pretoria'
   };
 
@@ -23,26 +23,14 @@ export async function sendRequest(session: Session) {
       body: JSON.stringify(data),
     });
     if (response.status !== 200) {
-      session.failedReqs++;
+      session.requestFailed();
     }
   } catch (err) {
     console.log(err);
-    session.failedReqs++;
+    session.requestFailed();
   } finally {
     const stop = Date.now();
     const responseTime = stop - start;
-    handleResponse(session, responseTime);
-  }
-}
-function handleResponse(session: Session, responseTime: number) {
-  session.numReqs += 1;
-  if (session.responseTimesPerLap[session.lastLapTime]) {
-    session.responseTimesPerLap[session.lastLapTime].push(
-      responseTime,
-    );
-  } else {
-    session.responseTimesPerLap[session.lastLapTime] = [
-      responseTime,
-    ];
+    session.addResponseTime(responseTime);
   }
 }

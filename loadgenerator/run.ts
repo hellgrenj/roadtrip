@@ -1,4 +1,4 @@
-import { announce, header, status, summary, whisper } from "./printer/mod.ts";
+import { announce, header, printStatus, printSummary, whisper } from "./printer/mod.ts";
 import { session } from "./session/mod.ts";
 import { sendRequest } from "./http/mod.ts";
 
@@ -11,22 +11,22 @@ let generateLoadInterval = generateLoad();
 const increasingLoadInterval = setInterval(turnUpTheHeat, 10000);
 // print status every 8 seconds
 setInterval(() => {
-  status(session.lapTime());
+  printStatus(session.lapTime());
 }, 8000);
 // print a summary when user stops process (ctrl + c)
 await Deno.signal(Deno.Signal.SIGINT);
-summary(session.summary());
+printSummary(session.summary());
 Deno.exit();
 
 function generateLoad(): number {
   return setInterval(() => {
     sendRequest(session);
-  }, 800 * session.workFactor);
+  }, 800 * session.getWorkFactor());
 }
 function turnUpTheHeat() {
-  if (session.workFactor > 0.2) {
+  if (session.getWorkFactor() > 0.2) {
     clearInterval(generateLoadInterval);
-    session.workFactor = session.workFactor - 0.1;
+    session.decreaseWorkFactor();
     whisper("increasing load...");
     generateLoadInterval = generateLoad();
   } else {
