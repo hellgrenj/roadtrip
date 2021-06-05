@@ -56,3 +56,5 @@ In the project folder root:
 3) run ```deno run --allow-net --unstable ./loadgenerator/run.ts``` in one terminal window/tab (this will generate load with a slow ramp up...)  
 
 
+## test with metallb
+See readme in folder **metallb-test** 
