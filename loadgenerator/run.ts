@@ -4,7 +4,13 @@ import { sendRequest } from "./http/mod.ts";
 
 header();
 whisper("assembling minions...");
-
+session.setRunWithMetallb(Deno.args[0] != undefined && Deno.args[0] == "metallb");
+if (session.runningWithMetallb()) {
+  session.setIngressExternalIp(await getIngressExternalIp());
+  whisper(
+    `running agains metallb and nginx ingress (external ip ${session.getIngressExternalIp()})`,
+  );
+}
 // start generating load
 let generateLoadInterval = generateLoad();
 // increase the load by changing the workFactor every 10 seconds
@@ -33,4 +39,16 @@ function turnUpTheHeat() {
     announce("reached maximum load");
     clearInterval(increasingLoadInterval);
   }
+}
+async function getIngressExternalIp(): Promise<string> {
+  const ingressExternalInfo = Deno.run({
+    cmd: ["kubectl", "get", "ingress", "-o", "json"],
+    stdout: "piped",
+  });
+  const jsonOutput = JSON.parse(
+    new TextDecoder().decode(await ingressExternalInfo.output()),
+  );
+  const ingressExternalIp =
+    jsonOutput.items[0].status.loadBalancer.ingress[0].ip;
+  return ingressExternalIp;
 }

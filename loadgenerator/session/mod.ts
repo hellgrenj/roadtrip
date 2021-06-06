@@ -1,4 +1,8 @@
 export interface Session {
+  setRunWithMetallb: (val: boolean) => void;
+  runningWithMetallb: () => boolean;
+  setIngressExternalIp: (ip: string) => void;
+  getIngressExternalIp: () => string;
   getWorkFactor: () => number;
   decreaseWorkFactor: () => void;
   addResponseTime: (responseTime: number) => void;
@@ -20,6 +24,8 @@ export interface SummaryStats {
 }
 const config = {
   workFactor: 1,
+  runWithMetallb: false,
+  ingresExternalIp: "",
 };
 const now = Date.now();
 const stats = {
@@ -74,6 +80,18 @@ export const session = {
       averageResponseTime,
       reqsPerSec,
     };
+  },
+  setRunWithMetallb: (val) => {
+    config.runWithMetallb = val;
+  },
+  runningWithMetallb: () => {
+    return config.runWithMetallb;
+  },
+  setIngressExternalIp: (ip) => {
+    config.ingresExternalIp = ip;
+  },
+  getIngressExternalIp: () => {
+    return config.ingresExternalIp;
   },
   getWorkFactor: () => {
     return config.workFactor;

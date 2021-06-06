@@ -15,13 +15,22 @@ export async function sendRequest(session: Session) {
   };
 
   try {
-    const response = await fetch("http://localhost:8080/itinerary", {
-      method: "POST",
-      headers: {
+    const jsonPayload = JSON.stringify(data);
+    let url: string;
+    let headers: Record<string, string>;
+    if (session.runningWithMetallb()) {
+      url = `http://${session.getIngressExternalIp()}/itinerary`;
+      headers = {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+        "Host": "testhost.roadtrip.se",
+      };
+    } else {
+      url = "http://localhost:8080/itinerary";
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
+    const response = await queryApi(url, jsonPayload, headers);
     if (response.status !== 200) {
       session.requestFailed();
     }
@@ -33,4 +42,16 @@ export async function sendRequest(session: Session) {
     const responseTime = stop - start;
     session.addResponseTime(responseTime);
   }
+}
+async function queryApi(
+  url: string,
+  jsonPayload: string,
+  headers: Record<string, string>,
+) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+    body: jsonPayload,
+  });
+  return response;
 }

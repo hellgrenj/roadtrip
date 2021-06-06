@@ -56,3 +56,8 @@ In the project folder root:
 3) run ```deno run --allow-net --unstable ./loadgenerator/run.ts``` in one terminal window/tab (this will generate load with a slow ramp up...)  
 
 
+## run with Nginx Ingress and Metallb
+1) First: run ```skaffold run``` and then follow the steps in the readme in folder **metallb-test**   
+2) Then start the scripts with arg **metallb** (and allow ./loadgenerator/run.ts the *run-permission*):  
+2.1) run ```deno run --allow-run ./loadgenerator/cluster-status.ts metallb``` in one terminal window/tab (this will monitor your deployment..)  
+2.2) run ```deno run --allow-run --allow-net --unstable  ./loadgenerator/run.ts metallb``` in one terminal window/tab (this will generate load with a slow ramp up...)  
