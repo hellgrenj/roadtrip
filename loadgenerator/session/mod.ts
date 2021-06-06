@@ -1,4 +1,6 @@
 export interface Session {
+  runWithMetallb: boolean,
+  ingressExternalIp: string;
   workFactor: number;
   testStart: number;
   lastTimeLapse: number;
@@ -8,6 +10,8 @@ export interface Session {
 }
 const now = Date.now();
 export const session = {
+  runWithMetallb: false,
+  ingressExternalIp: '',
   workFactor: 1,
   testStart: now,
   lastTimeLapse: now,

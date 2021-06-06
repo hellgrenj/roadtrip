@@ -10,18 +10,27 @@ export async function sendRequest(session: Session) {
       "manila",
       "london",
       "rome",
-      "canberra"
+      "canberra",
     ], //   'buenos aires', 'canberra', 'pretoria'
   };
 
   try {
-    const response = await fetch("http://localhost:8080/itinerary", {
-      method: "POST",
-      headers: {
+    const jsonPayload = JSON.stringify(data);
+    let url: string;
+    let headers: Record<string, string>;
+    if (session.runWithMetallb) {
+      url = `http://${session.ingressExternalIp}/itinerary`;
+      headers = {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+        "Host": "testhost.roadtrip.se",
+      };
+    } else {
+      url = "http://localhost:8080/itinerary";
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
+    const response = await queryApi(url, jsonPayload, headers);
     if (response.status !== 200) {
       session.failedReqs++;
     }
@@ -45,4 +54,16 @@ function handleResponse(session: Session, responseTime: number) {
       responseTime,
     ];
   }
+}
+async function queryApi(
+  url: string,
+  jsonPayload: string,
+  headers: Record<string, string>,
+) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+    body: jsonPayload,
+  });
+  return response;
 }
