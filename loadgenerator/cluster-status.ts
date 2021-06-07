@@ -6,9 +6,6 @@ setInterval(top, 15000);
 
 async function top(): Promise<void> {
   console.clear();
-  if (runWithMetal) {
-    console.log(Colors.yellow("running against metallb"));
-  }
   console.log(Colors.blue("top pods"));
   const topPods = Deno.run({
     cmd: ["kubectl", "top", "pods"],
@@ -23,6 +20,13 @@ async function top(): Promise<void> {
       stdout: "piped",
     });
     console.log(new TextDecoder().decode(await topPodsForMetallb.output()));
+
+    console.log(Colors.blue("top pods -n ingress-nginx"));
+    const topPodsForIngress = Deno.run({
+      cmd: ["kubectl", "top", "pods", "-n", "ingress-nginx"],
+      stdout: "piped",
+    });
+    console.log(new TextDecoder().decode(await topPodsForIngress.output()));
   }
 
   console.log(Colors.blue("hpa"));
