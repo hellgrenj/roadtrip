@@ -9,7 +9,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
   
 ## Install Metallb
 1) Follow the **Preperation** guide here: https://metallb.universe.tf/installation/
-2) Run the following commands (also from above guide) in order:
+2) Run the following commands (also from above guide):
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.6/manifests/namespace.yaml
@@ -32,16 +32,17 @@ expected output
 NAME           CLASS    HOSTS                  ADDRESS       PORTS   AGE
 main-ingress   <none>   testhost.roadtrip.se   127.0.0.2XX   80      XXh
 ```
+(It can take a minute before the ingress gets an external IP, i.e ADDRESS..)  
 
 ## Query the API
 use curl and send host header expected by nginx ingress
-
+(replace XX with the real number in the ingress external ip)  
 ``` 
 curl -H 'Host:testhost.roadtrip.se' \
   -H "Content-Type: application/json" \
   -X POST \
   -d '{"places": ["stockholm", "nairobi","madrid","canberra","london"]}' \
-   http://127.0.0.243/itinerary
+   http://127.0.0.2XX/itinerary
 ```
 
 expected response
