@@ -29,7 +29,7 @@ A simple HTTP API where you can post a list of capitals and get an itinerary bac
 **to run**  
 * docker desktop (v 3.3.1 or later) with kubernetes (v 1.19 or later) enabled    
 * [skaffold](https://skaffold.dev/)  
-* [deno](https://deno.land/) version 1.9.x  ❤️   
+* [deno](https://deno.land/) version 1.9.x or later ❤️   
 
 **to develop (in addition)**  
 * .net 5  

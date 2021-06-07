@@ -31,6 +31,14 @@ export async function sendRequest(session: Session) {
       };
     }
     const response = await queryApi(url, jsonPayload, headers);
+
+    // WORKAROUND
+    // consuming body to force fetch to cleanup, if we dont do this we end up with a
+    // error trying to connect: tcp open error: Too many open files (os error 24)
+    // about 400 seconds in...
+    // Issue: https://github.com/denoland/deno/issues/4735
+    await response.text();
+
     if (response.status !== 200) {
       session.requestFailed();
     }
