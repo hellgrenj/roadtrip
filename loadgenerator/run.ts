@@ -20,9 +20,11 @@ setInterval(() => {
   printStatus(session.lapTime());
 }, 8000);
 // print a summary when user stops process (ctrl + c)
-await Deno.signal(Deno.Signal.SIGINT);
-printSummary(session.summary());
-Deno.exit();
+const sigIntHandler = () => {
+  printSummary(session.summary());
+  Deno.exit();
+};
+Deno.addSignalListener("SIGINT", sigIntHandler);
 
 function generateLoad(): number {
   return setInterval(() => {
